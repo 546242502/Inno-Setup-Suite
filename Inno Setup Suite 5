@@ -1,0 +1,1298 @@
+#define MyAppName "Inno Setup Suite"
+#define MyAppVersion "5"
+#define MyAppPublisher "jrsoftware.org"
+#define MyAppURL "http://www.jrsoftware.org/"
+#define MyAppExeName "Compil32.exe"
+
+[Setup]
+; 注意: AppId 的值是唯一识别这个程序的标志。
+; 不要在其他程序中使用相同的 AppId 值。
+; (在编译器中点击菜单“工具 -> 产生 GUID”可以产生一个新的 GUID)
+AppId=Inno Setup {#MyAppVersion}
+AppName={#MyAppName}
+AppVersion={#MyAppVersion}
+AppVerName={#MyAppName} {#MyAppVersion}
+AppMutex={#MyAppName}
+AppPublisher={#MyAppPublisher}
+AppPublisherURL={#MyAppURL}
+AppSupportURL={#MyAppURL}
+AppUpdatesURL={#MyAppURL}
+DefaultDirName={pf}\Inno Setup {#MyAppVersion}
+DefaultGroupName={#MyAppName}
+OutputDir=安装程序
+OutputBaseFilename={#MyAppName} {#MyAppVersion}
+Compression=lzma
+SolidCompression=yes
+DirExistsWarning=no
+ChangesAssociations=yes
+WizardImageFile=Image\开始位图1.bmp
+WizardSmallImageFile=Image\icon.bmp
+SetupIconFile=Image\Icon.ico
+//版本信息
+VersionInfoCompany=jrsoftware.org
+VersionInfoDescription=Inno Setup lH-U {#MyAppVersion} Setup
+VersionInfoVersion={#MyAppVersion}
+
+
+[Languages]
+Name: "en"; MessagesFile: "compiler:Languages\English.isl"
+Name: "chs"; MessagesFile: "compiler:Default.isl"
+
+
+[Types]
+Name: "default"; Description: "{cm:default}"
+Name: "custom"; Description: "{cm:custom}"; Flags: iscustom
+
+
+[Components]
+Name: "ALL"; Description: "{cm:all}"; Types:custom default; Flags:fixed
+
+Name: "ALL\ANSI"; Description: "{cm:ansi}"; Types:custom
+Name: "ALL\ANSI\restools"; Description: "{cm:ansirestools}"; Types:custom; Flags: exclusive
+Name: "ALL\ANSI\skygz"; Description: "{cm:ansiskygz}"; Flags: exclusive; Languages:chs
+Name: "ALL\ANSI\og"; Description: "{cm:ansiog}"; Flags: exclusive
+
+Name: "ALL\Unicode"; Description: "{cm:unicode}"; Types:default;
+Name: "ALL\Unicode\restools"; Description: "{cm:unicoderestools}"; Types:default; Flags:exclusive
+Name: "ALL\Unicode\skygz"; Description: "{cm:unicodeskygz}"; Flags:exclusive; Languages:chs
+Name: "ALL\Unicode\og"; Description: "{cm:unicodeog}"; Flags:exclusive
+
+//插件开始
+//For Ansi
+Name: "PluginsII"; Description: "{cm:pluginsII}"; Types:custom;
+Name: "PluginsII\ISSkin"; Description: "{cm:isskin}"; Types:custom;
+Name: "PluginsII\IssProc"; Description: "{cm:IssProc}"; Types:custom;
+Name: "PluginsII\Webctrl"; Description: "{cm:webctrl}"; Types:custom;
+Name: "PluginsII\GIFCtrl"; Description: "{cm:gifctrl}"; Types:custom;
+Name: "PluginsII\ISCrypt"; Description: "{cm:ISCrypt}"; Types:custom;
+Name: "PluginsII\DescCtrl"; Description: "{cm:descctrl}"; Types:custom;
+Name: "PluginsII\WaterCtrl"; Description: "{cm:waterctrl}"; Types:custom;
+Name: "PluginsII\InnoFairy"; Description: "{cm:innofairy}"; Types:custom;
+Name: "PluginsII\CallbackCtrl"; Description: "{cm:callbackctrl}"; Types:custom;
+//For Unicode
+Name: "Plugins"; Description: "{cm:plugins}"; Types:default;
+Name: "Plugins\ISSkin"; Description: "{cm:isskin}"; Types:default;
+Name: "Plugins\IssProc"; Description: "{cm:IssProc}"; Types:default;
+Name: "Plugins\Webctrl"; Description: "{cm:webctrl}"; Types:default;
+Name: "Plugins\GIFCtrl"; Description: "{cm:gifctrl}"; Types:default;
+Name: "Plugins\ISCrypt"; Description: "{cm:ISCrypt}"; Types:default;
+Name: "Plugins\DescCtrl"; Description: "{cm:descctrl}"; Types:default;
+Name: "Plugins\WaterCtrl"; Description: "{cm:waterctrl}"; Types:default;
+Name: "Plugins\InnoFairy"; Description: "{cm:innofairy}"; Types:default;
+Name: "Plugins\CallbackCtrl"; Description: "{cm:callbackctrl}"; Types:default;
+
+
+//扩展开始
+Name: "Extend"; Description: "{cm:extend}"; Types:custom default;
+Name: "Extend\Istool"; Description: "{cm:istool}"; Types:default;
+Name: "Extend\Istool\cnone"; Description: "{cm:istoolcnone}"; Types:default; Languages:chs; Flags:exclusive
+Name: "Extend\Istool\cntwo"; Description: "{cm:istoolcntwo}"; Languages:chs; Flags:exclusive
+Name: "Extend\InnoIDE"; Description: "{cm:innoide}";
+Name: "Extend\InnoScriptStudio"; Description: "{cm:innoscriptstudio}"; Types:custom
+
+//解包工具开始
+Name: "Extractor"; Description: "{cm:extrator}"; Types:custom default;
+Name: "Extractor\InnoEx"; Description: "{cm:innoex}";
+Name: "Extractor\InnoExtractor"; Description: "{cm:innoextractor}"; Types:custom default;
+
+
+[Files]
+//临时文件//
+Source: "Image\开始位图1.bmp"; Flags: dontcopy
+Source: "Image\结束位图1.bmp"; Flags: dontcopy
+Source: "Image\开始位图2.bmp"; Flags: dontcopy
+Source: "Image\结束位图2.bmp"; Flags: dontcopy
+Source: "waterctrl.dll"; Flags: dontcopy
+//第一部分//
+//三个版本共同部分
+Source: "app\Main\5.5.x Common\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode;
+Source: "app\Main\5.5.x Common\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI;
+
+//两个版本共同部分 5.5.5-5.5.6
+Source: "app\Main\5.5.5-6 Common\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\skygz ALL\Unicode\og;
+Source: "app\Main\5.5.5-6 Common\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\skygz ALL\ANSI\og;
+
+//三个版本不同部分 I
+Source: "app\Main\5.5.1 DF\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\restools;
+Source: "app\Main\5.5.1 DF\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\restools;
+Source: "app\Main\5.5.5 DF2\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\skygz;
+Source: "app\Main\5.5.5 DF2\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\skygz;
+Source: "app\Main\5.5.6 DF2\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\og;
+Source: "app\Main\5.5.6 DF2\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\og;
+//第一部分//
+
+
+//第二部分//
+//三个版本不同部分 II
+//Restools 版本开始：
+Source: "app\Restools\ANSI\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\restools;
+Source: "app\Restools\Unicode\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\restools;
+//.isl 语言文件
+Source: "app\Restools\Language\EN\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\restools; Languages:en;
+Source: "app\Restools\Language\CN\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\restools; Languages:chs;
+Source: "app\Restools\Language\EN\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\restools; Languages:en;
+Source: "app\Restools\Language\CN\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\restools; Languages:chs;
+
+//Skygz 版本开始：
+Source: "app\Skygz\ANSI\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\skygz;
+Source: "app\Skygz\Unicode\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\skygz;
+//.isl 语言文件
+Source: "app\Skygz\Language\EN\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\skygz; Languages:en;
+Source: "app\Skygz\Language\CN\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\skygz; Languages:chs;
+Source: "app\Skygz\Language\EN\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\skygz; Languages:en;
+Source: "app\Skygz\Language\CN\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\skygz; Languages:chs;
+
+//官方版本开始
+Source: "app\Official\ANSI\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\og;
+Source: "app\Official\Unicode\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\og;
+//.isl 语言文件
+Source: "app\Official\Language\EN\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\og; Languages:en;
+Source: "app\Official\Language\CN\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\Unicode\og; Languages:chs;
+Source: "app\Official\Language\EN\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\og; Languages:en;
+Source: "app\Official\Language\CN\*"; DestDir: "{code:app2}"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:ALL\ANSI\og; Languages:chs;
+//第二部分//
+
+
+//第三部分开始//
+//第一小部分
+//扩展工具开始
+Source: "Extend\Istool\Main\*"; DestDir: "{app}\Extend\Istool\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\Istool; Check:not allversion
+Source: "Extend\Istool\CN\*"; DestDir: "{app}\Extend\Istool\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\Istool\cnone; Languages:chs; Check:not allversion
+Source: "Extend\Istool\Roaming\*"; DestDir: "{userappdata}\ISTool"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\Istool\cnone; Languages:chs;Check:not allversion
+
+Source: "Extend\InnoIDE\CN\*"; DestDir: "{app}\Extend\InnoIDE\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\InnoIDE; Languages:chs; Check:not allversion
+Source: "Extend\InnoIDE\EN\*"; DestDir: "{app}\Extend\InnoIDE\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\InnoIDE; Languages:en; Check:not allversion
+Source: "Extend\Inno Script Studio\*"; DestDir: "{app}\Extend\Inno Script Studio\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\InnoScriptStudio; Check:not allversion
+
+//解包工具
+Source: "Extractor\InnoEx\*"; DestDir: "{app}\Extractor\InnoEx\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extractor\InnoEx; Check:not allversion
+Source: "Extractor\InnoExtractor\Main\*"; DestDir: "{app}\Extractor\InnoExtractor\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extractor\InnoExtractor; Check:not allversion
+Source: "Extractor\InnoExtractor\Language\CN\*"; DestDir: "{app}\Extractor\InnoExtractor\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extractor\InnoExtractor; Check:not allversion; Languages:chs
+Source: "Extractor\InnoExtractor\Language\EN\*"; DestDir: "{app}\Extractor\InnoExtractor\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extractor\InnoExtractor; Check:not allversion; Languages:en
+
+//第二小部分
+Source: "Extend\Istool\Main\*"; DestDir: "{pf}\Inno Tools\Istool\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\Istool; Check:allversion
+Source: "Extend\Istool\CN\*"; DestDir: "{pf}\Inno Tools\Istool\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\Istool\cnone; Languages:chs; Check:allversion
+Source: "Extend\Istool\Roaming\*"; DestDir: "{userappdata}\ISTool"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\Istool; Languages:chs; Check:allversion
+
+Source: "Extend\InnoIDE\CN\*"; DestDir: "{pf}\Inno Tools\InnoIDE\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\InnoIDE; Languages:chs;  Check:allversion
+Source: "Extend\InnoIDE\EN\*"; DestDir: "{pf}\Inno Tools\InnoIDE\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\InnoIDE; Languages:en;  Check:allversion
+Source: "Extend\Inno Script Studio\*"; DestDir: "{pf}\Inno Tools\Inno Script Studio\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extend\InnoScriptStudio;  Check:allversion
+
+Source: "Extractor\InnoEx\*"; DestDir: "{pf}\Inno Tools\Extractor\InnoEx\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extractor\InnoEx; Check:allversion
+Source: "Extractor\InnoExtractor\Main\*"; DestDir: "{pf}\Inno Tools\Extractor\InnoExtractor\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extractor\InnoExtractor; Check:allversion
+Source: "Extractor\InnoExtractor\Language\CN\*"; DestDir: "{pf}\Inno Tools\Extractor\InnoExtractor\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extractor\InnoExtractor; Check:allversion; Languages:chs
+Source: "Extractor\InnoExtractor\Language\EN\*"; DestDir: "{pf}\Inno Tools\Extractor\InnoExtractor\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Extractor\InnoExtractor; Check:allversion; Languages:en
+
+
+//第三部分结束//
+
+
+//第四部分开始//
+//插件安装，还有问题
+Source: "Plugins\ISSkin\*"; DestDir: "{code:app2}\Examples\ISSkin\"; Flags: ignoreversion recursesubdirs createallsubdirs;components:PluginsII\ISSkin; Check:checkansi
+Source: "Plugins\ISSkin\ISSkinEx.dll"; DestDir: "{code:app2}\Plugins\"; Flags: ignoreversion;components:PluginsII\ISSkin; Check:checkansi
+Source: "Plugins\ISSkin\ISSkinExU.dll"; DestDir: "{code:app2}\Plugins\"; Flags: ignoreversion;components:PluginsII\ISSkin; Check:checkansi
+Source: "Plugins\IssProc\*"; DestDir: "{code:app2}\Examples\IssProc\"; Flags: ignoreversion recursesubdirs createallsubdirs;components:PluginsII\IssProc; Check:checkansi
+Source: "Plugins\IssProc\IssProc.dll"; DestDir: "{code:app2}\Plugins\"; Flags: ignoreversion;components:PluginsII\IssProc; Check:checkansi
+Source: "Plugins\Webctrl\*"; DestDir: "{code:app2}\Examples\Webctrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:PluginsII\Webctrl; Check:checkansi
+Source: "Plugins\Webctrl\Webctrl.dll"; DestDir: "{code:app2}\Plugins\"; Flags: ignoreversion;components:PluginsII\Webctrl; Check:checkansi
+Source: "Plugins\GIFCtrl\*"; DestDir: "{code:app2}\Examples\GIFCtrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:PluginsII\GIFCtrl; Check:checkansi
+Source: "Plugins\GIFCtrl\GIFCtrl.dll"; DestDir: "{code:app2}\Plugins\"; Flags: ignoreversion;components:PluginsII\GIFCtrl; Check:checkansi
+Source: "Plugins\ISCrypt\*"; DestDir: "{code:app2}\Examples\ISCrypt\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:PluginsII\ISCrypt; Check:checkansi
+Source: "Plugins\ISCrypt\ISCrypt.dll"; DestDir: "{code:app2}\"; Flags: ignoreversion ;components:PluginsII\ISCrypt; Check:checkansi
+Source: "Plugins\DescCtrl\*"; DestDir: "{code:app2}\Examples\DescCtrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:PluginsII\DescCtrl; Check:checkansi
+Source: "Plugins\DescCtrl\DescCtrl.dll"; DestDir: "{code:app2}\Plugins\"; Flags: ignoreversion ;components:PluginsII\DescCtrl; Check:checkansi
+Source: "Plugins\WaterCtrl\*"; DestDir: "{code:app2}\Examples\WaterCtrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:PluginsII\WaterCtrl; Check:checkansi
+Source: "Plugins\WaterCtrl\WaterCtrl.dll"; DestDir: "{code:app2}\Plugins\"; Flags: ignoreversion;components:PluginsII\WaterCtrl; Check:checkansi
+Source: "Plugins\InnoFairy\*"; DestDir: "{code:app2}\Examples\InnoFairy\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:PluginsII\InnoFairy; Check:checkansi
+Source: "Plugins\InnoFairy\Fairy.dll"; DestDir: "{code:app2}\Plugins\"; Flags: ignoreversion ;components:PluginsII\InnoFairy; Check:checkansi
+Source: "Plugins\CallbackCtrl\*"; DestDir: "{code:app2}\Examples\CallbackCtrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:PluginsII\CallbackCtrl; Check:checkansi
+Source: "Plugins\CallbackCtrl\CallbackCtrl.dll"; DestDir: "{code:app2}\Plugins\"; Flags: ignoreversion;components:PluginsII\CallbackCtrl; Check:checkansi
+Source: "Plugins\CallbackCtrl\InnoCallback\InnoCallback.dll"; DestDir: "{code:app2}\Plugins\"; Flags:ignoreversion; components:PluginsII\CallbackCtrl; Check:checkansi
+
+
+Source: "Plugins\ISSkin\*"; DestDir: "{app}\Examples\ISSkin\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Plugins\ISSkin; Check:checkunicode
+Source: "Plugins\ISSkin\ISSkinEx.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion;components:Plugins\ISSkin; Check:checkunicode
+Source: "Plugins\ISSkin\ISSkinExU.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion;components:Plugins\ISSkin; Check:checkunicode
+Source: "Plugins\IssProc\*"; DestDir: "{app}\Examples\IssProc\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Plugins\IssProc; Check:checkunicode
+Source: "Plugins\IssProc\IssProc.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion ;components:Plugins\IssProc; Check:checkunicode
+Source: "Plugins\Webctrl\*"; DestDir: "{app}\Examples\Webctrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Plugins\Webctrl; Check:checkunicode
+Source: "Plugins\Webctrl\Webctrl.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion;components:Plugins\Webctrl; Check:checkunicode
+Source: "Plugins\GIFCtrl\*"; DestDir: "{app}\Examples\GIFCtrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Plugins\GIFCtrl; Check:checkunicode
+Source: "Plugins\GIFCtrl\GIFCtrl.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion;components:Plugins\GIFCtrl; Check:checkunicode
+Source: "Plugins\ISCrypt\*"; DestDir: "{app}\Examples\ISCrypt\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Plugins\ISCrypt; Check:checkunicode
+Source: "Plugins\ISCrypt\ISCrypt.dll"; DestDir: "{app}\"; Flags: ignoreversion;components:Plugins\ISCrypt; Check:checkunicode
+Source: "Plugins\DescCtrl\*"; DestDir: "{app}\Examples\DescCtrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Plugins\DescCtrl; Check:checkunicode
+Source: "Plugins\DescCtrl\DescCtrl.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion;components:Plugins\DescCtrl; Check:checkunicode
+Source: "Plugins\WaterCtrl\*"; DestDir: "{app}\Examples\WaterCtrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Plugins\WaterCtrl; Check:checkunicode
+Source: "Plugins\WaterCtrl\WaterCtrl.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion;components:Plugins\WaterCtrl; Check:checkunicode
+Source: "Plugins\InnoFairy\*"; DestDir: "{app}\Examples\InnoFairy\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Plugins\InnoFairy; Check:checkunicode
+Source: "Plugins\InnoFairy\Fairy.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion;components:Plugins\InnoFairy; Check:checkunicode
+Source: "Plugins\CallbackCtrl\*"; DestDir: "{app}\Examples\CallbackCtrl\"; Flags: ignoreversion recursesubdirs createallsubdirs ;components:Plugins\CallbackCtrl; Check:checkunicode
+Source: "Plugins\CallbackCtrl\CallbackCtrl.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion;components:Plugins\CallbackCtrl; Check:checkunicode
+Source: "Plugins\CallbackCtrl\InnoCallback\InnoCallback.dll"; DestDir: "{app}\Plugins\"; Flags: ignoreversion;components:Plugins\CallbackCtrl; Check:checkunicode
+//注意: 不要在任何共享的系统文件使用 "Flags: ignoreversion"
+
+[Tasks]
+//主程序图标
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";components:ALL\ANSI ALL\Unicode;Flags:checkedonce;Check:not allversion
+
+Name: "desktopicona"; Description: "{cm:CreateDesktopIcona}"; GroupDescription: "{cm:AdditionalIcons}";components:ALL\ANSI; Flags:unchecked;Check:allversion
+Name: "desktopiconu"; Description: "{cm:CreateDesktopIconu}"; GroupDescription: "{cm:AdditionalIcons}";components:ALL\Unicode; Flags:checkedonce;Check:allversion
+
+//扩展工具
+Name: "IstoolIcon"; Description: "{cm:CreateDesktopIconistool}"; GroupDescription: "{cm:Additionalicons}" ;components:Extend\Istool; Flags:unchecked;
+Name: "InnoIDEIcon"; Description: "{cm:CreateDesktopIconIDE}"; GroupDescription: "{cm:Additionalicons}" ;components:Extend\InnoIDE; Flags:unchecked;
+Name: "ISStudioIcon"; Description: "{cm:CreateDesktopIconISStudio}"; GroupDescription: "{cm:Additionalicons}";components:Extend\InnoScriptStudio; Flags:unchecked;
+
+//解包工具
+Name: "InnoExIcon"; Description: "{cm:CreateDesktopIconInnoEx}"; GroupDescription: "{cm:Additionalicons}";components:Extractor\InnoEx; Flags:unchecked;
+Name: "InnoExtractorIcon"; Description: "{cm:CreateDesktopIconInnoExtractor}"; GroupDescription: "{cm:Additionalicons}";components:Extractor\InnoExtractor; Flags:unchecked;
+
+//关联 .iss
+Name: "fileassocinno"; Description: "{cm:fileassocinno}"; GroupDescription: "{cm:Additionaltasks}"; components:ALL\ANSI ALL\Unicode; Flags:exclusive;Check:not allversion
+Name: "fileassocinnoansi"; Description: "{cm:fileassocinnoansi}"; GroupDescription: "{cm:Additionaltasks}"; components:ALL\ANSI; Flags:exclusive unchecked; Check:allversion
+Name: "fileassocinnounicode"; Description: "{cm:fileassocinnounicode}"; GroupDescription: "{cm:Additionaltasks}"; components:ALL\Unicode; Flags:exclusive; Check:allversion
+Name: "fileassocistool"; Description: "{cm:fileassocistool}"; GroupDescription: "{cm:Additionaltasks}";components:Extend\Istool; Flags:exclusive unchecked;
+Name: "fileassocinnoide"; Description: "{cm:fileassocinnoide}"; GroupDescription: "{cm:Additionaltasks}";components:Extend\InnoIDE; Flags:exclusive unchecked;
+Name: "fileassocisstudio"; Description: "{cm:fileassocisstudio}"; GroupDescription: "{cm:Additionaltasks}";components:Extend\InnoScriptStudio; Flags:exclusive unchecked;
+
+//关联 .exe 右键菜单
+Name: "fileassocinnoex"; Description: "{cm:fileassocinnoex}"; GroupDescription: "{cm:Additionaltaskstwo}";components:Extractor\InnoEx; Flags:checkedonce
+Name: "fileassocinnoextractor"; Description: "{cm:fileassocinnoextractor}"; GroupDescription: "{cm:Additionaltaskstwo}";components:Extractor\InnoExtractor; Flags:checkedonce
+
+[CustomMessages]
+//类型自定义消息
+en.default=Default installation
+chs.default=默认安装
+en.custom=Custom installation
+chs.custom=自定义安装
+
+//组件自定义消息
+en.all=Inno Setup
+chs.all=Inno Setup
+en.unicode=Unicode Inno Setup
+chs.unicode=Unicode 版本
+en.unicoderestools=5.5.1 Restools Plus
+chs.unicoderestools=5.5.1 Restools 增强版
+en.unicodeskygz=5.5.5 Skygz Plus For Chinese User
+chs.unicodeskygz=5.5.5 Skygz 增强版
+en.unicodeog=5.5.6 Official version
+chs.unicodeog=5.5.6 官方原版
+en.ANSI=ANSI Inno Setup
+chs.ANSI=ANSI 版本
+en.ansirestools=5.5.1 Restools Plus
+chs.ansirestools=5.5.1 Restools 增强版
+en.ansiskygz=5.5.5 Skygz Plus For Chinese User
+chs.ansiskygz=5.5.5 Skygz 增强版
+en.ansiog=5.5.6 Official version
+chs.ansiog=5.5.6 官方原版
+
+//扩展工具开始
+en.extend=Extend Tools
+chs.extend=扩展工具
+en.istool=Istool 5.3.0.1
+chs.istool=Istool 5.3.0.1
+en.istoolcnone=Chinese
+chs.istoolcnone=中文编译版本
+en.istoolcntwo=Chinese Language
+chs.istoolcntwo=中文语言文件
+en.innoide=InnoIDE 1.0.0.78
+chs.innoide=InnoIDE 1.0.0.78
+en.innoscriptstudio=Inno Script Studio 2.2.1.31
+chs.innoscriptstudio=Inno Script Studio 2.2.1.31
+
+//插件开始
+en.pluginsII=Plugins For Ansi Version
+chs.pluginsII=Ansi 版本插件
+en.plugins=Plugins For Unicode Version
+chs.plugins=Unicode 版本插件
+en.isskin=ISSkin 3.0
+chs.isskin=ISSkin 3.0 皮肤
+en.webctrl=Webctrl 2.1
+chs.webctrl=Webctrl 2.1 网页
+en.callbackctrl=CallbackCtrl 1.1
+chs.callbackctrl=CallbackCtrl 1.1 回调
+en.descctrl=DescCtrl 1.0
+chs.descctrl=DescCtrl 1.0 组件描述
+en.gifctrl=GIFCtrl 2.1
+chs.gifctrl=GIFCtrl 1.2 GIF显示
+en.waterctrl=WaterCtrl 2.0
+chs.waterctrl=WaterCtrl 2.0 水波
+en.innofairy=InnoFairy 2.0
+chs.innofairy=InnoFairy 2.0 图像显示
+en.IssProc=IssProc 1.1
+chs.IssProc=IssProc 1.1 进程检测
+en.ISCrypt=ISCrypt 2004
+chs.ISCrypt=ISCrypt 2004 加密
+
+//解包工具开始
+en.extrator=Inno Setup Extractor
+chs.extrator=解包工具
+en.innoex=InnoEx 0.8
+chs.innoex=InnoEx 0.8
+en.innoextractor=InnoExtractor 1.8.2
+chs.innoextractor=InnoExtractor 1.8.2
+
+//快捷方式
+en.innoname=Inno Setup Compiler
+chs.innoname=Inno Setup 编译器
+en.innonamea=Ansi Inno Setup Compiler
+chs.innonamea=Ansi Inno Setup 编译器
+en.innonameu=Unicode Inno Setup Compiler
+chs.innonameu=Unicode Inno Setup 编译器
+
+en.innosuite=Inno Setup Suite
+chs.innosuite=Inno Setup Suite
+
+//快捷方式
+en.CreateDesktopIcon=Create a &desktop icon for Inno Setup
+chs.CreateDesktopIcon=为 Inno Setup 创建桌面快捷方式(&D)
+
+en.CreateDesktopIcona=Create a &desktop icon for Ansi Inno Setup
+chs.CreateDesktopIcona=为 Ansi Inno Setup 创建桌面快捷方式(&D)
+
+en.CreateDesktopIconu=Create a &desktop icon for Unicode Inno Setup
+chs.CreateDesktopIconu=为 Unicode Inno Setup 创建桌面快捷方式(&D)
+
+en.CreateDesktopIconistool=Create a &desktop icon for Istool
+chs.CreateDesktopIconistool=为 Istool 创建桌面快捷方式(&D)
+
+en.CreateDesktopIconIDE=Create a &desktop icon for InnoIDE
+chs.CreateDesktopIconIDE=为 InnoIDE 创建桌面快捷方式(&D)
+
+en.CreateDesktopIconISStudio=Create a &desktop icon for Inno Script Studio
+chs.CreateDesktopIconISStudio=为 Inno Script Studio 创建桌面快捷方式(&D)
+
+en.CreateDesktopIconInnoEx=Create a &desktop icon for InnoEx
+chs.CreateDesktopIconInnoEx=为 InnoEx 创建桌面快捷方式(&D)
+
+en.CreateDesktopIconInnoExtractor=Create a &desktop icon for InnoExtractor
+chs.CreateDesktopIconInnoExtractor=为 InnoExtractor 创建桌面快捷方式(&D)
+
+
+en.Additionalicons=Additional icons
+chs.Additionalicons=创建快捷方式
+en.Additionaltasks=Create File Associations
+chs.Additionaltasks=创建文件关联
+en.Additionaltaskstwo=Add context menu
+chs.Additionaltaskstwo=添加右键菜单
+
+
+chs.fileassocinno=关联 .iss 文件到 Inno Setup
+en.fileassocinno=&Associate Inno Setup with the .iss file extension
+
+chs.fileassocinnoansi=关联 .iss 文件到 Ansi Inno Setup
+en.fileassocinnoansi=&Associate Ansi Inno Setup with the .iss file extension
+
+chs.fileassocinnounicode=关联 .iss 文件到 Unicode Inno Setup
+en.fileassocinnounicode=&Associate Unicode Inno Setup  with the .iss file extension
+
+chs.fileassocistool=关联 .iss 文件到 Istool
+en.fileassocistool=&Associate Istool with the .iss file extension
+
+chs.fileassocinnoide=关联 .iss 文件到 InnoIDE
+en.fileassocinnoide=&Associate InnoIDE with the .iss file extension
+
+chs.fileassocisstudio=关联 .iss 文件到 Inno Script Studio
+en.fileassocisstudio=&Associate Inno Script Studio with the .iss file extension
+
+
+en.fileassocinnoex=Add InnoEx to .exe file context menu
+chs.fileassocinnoex=把 InnoEx 添加到 .exe 文件右键菜单
+
+en.fileassocinnoextractor=Add InnoExtractor to .exe file context menu
+chs.fileassocinnoextractor=把 InnoExtractor 添加到 .exe 文件右键菜单
+
+//Run 段关联状态消息
+//en.AssocingFileExtensiona=Associating Inno Setup with the .iss file extension…
+//chs.AssocingFileExtensiona=正在关联 .iss 文件到 Inno Setup…
+
+
+en.LaunchProgram=Launch Inno Setup Compiler
+chs.LaunchProgram=运行 Inno Setup 编译器
+
+en.LaunchPrograma=Launch Ansi Inno Setup Compiler
+chs.LaunchPrograma=运行 Ansi Inno Setup 编译器
+
+en.LaunchProgramu=Launch Unicode Inno Setup Compiler
+chs.LaunchProgramu=运行 Unicode Inno Setup 编译器
+
+en.LaunchProgramistool=Launch ISTool
+chs.LaunchProgramistool=运行 ISTool
+
+en.LaunchPrograminnoide=Launch InnoIDE
+chs.LaunchPrograminnoide=运行 InnoIDE
+
+en.LaunchProgramisstudio=Launch Inno Script Studio
+chs.LaunchProgramisstudio=运行 Inno Script Studio
+
+
+en.selectpathhint=If you want to install two versions at the same time, please select Ansi Inno Setup Installpath.
+chs.selectpathhint=如果您要同时安装两个版本，请选择 Ansi 版本安装目录。
+
+en.selectpath=Please select the Ansi Inno Setup Installpath.
+chs.selectpath=请选择一个目录安装 Ansi Inno Setup.
+
+en.browsepath=Brow&se…
+chs.browsepath=浏览(S)...
+
+
+en.openwithinnoextractor=Open with &InnoExtractor
+chs.openwithinnoextractor=使用 InnoExtractor 打开(&I)
+
+en.openwithinnoex=Open with &InnoEx
+chs.openwithinnoex=使用 InnoEx 打开(&I)
+
+en.InnoSetupScriptFile=Inno Setup Script
+chs.InnoSetupScriptFile=Inno Setup 脚本
+en.innoCompile=Compi&le
+chs.innoCompile=编译(&L)
+en.OpenWithInnoSetup=Open With &Inno Setup
+chs.OpenWithInnoSetup=用 Inno Setup 打开(&I)
+
+en.OpenWithISTool=Open with &ISTool
+chs.OpenWithISTool=用 ISTool 打开(&I)
+
+en.OpenWithInnoIDE=Open with &InnoIDE
+chs.OpenWithInnoIDE=用 InnoIDE 打开(&I)
+
+en.OpenWithISStudio=Open with &Inno Script Studio
+chs.OpenWithISStudio=用 Inno Script Studio 打开(&I)
+
+en.uninshint=Please click 'OK' to uninstall the installed version before installation.%n%nor Please click 'Cancel' to exit setup.
+chs.uninshint=请点击 '确定' 卸载已安装版本后继续安装.%n%n或点击 '取消' 退出安装程序.
+
+
+[Messages]
+chs.BeveledLabel=飞华逐梦
+en.BeveledLabel=Dream
+chs.SetupAppRunningError=安装程序已经在运行.%n%n请按“取消”退出.
+en.SetupAppRunningError=Setup is already running. %n%nPlease click "cancel" to exit setup.
+
+
+[icons]
+//主程序图标
+//第一种情况，没有同时安装两个版本，安装目录相同，只需判断是否是 Restools 版本
+Name: "{group}\{cm:innoname}"; Filename: "{app}\Compil32.exe" ; WorkingDir: {app} ; Check:not allversion ;components:ALL\ANSI ALL\Unicode
+Name: "{group}\{cm:UninstallProgram,{cm:innosuite}}"; Filename: "{uninstallexe}"; WorkingDir: {app} ; Check:not allversion ;components:ALL\ANSI ALL\Unicode
+Name: "{commondesktop}\{cm:innoname}"; Filename: "{app}\Compil32.exe"; Tasks: desktopicon ;WorkingDir: {app} ; Check:not allversion ;components:ALL\ANSI ALL\Unicode
+
+//第二种情况，同时安装了两个版本，由于 ANSI 版本目录在 {CODE:APP2} ,所以加上 Restools 判断共  4  种情况
+Name: "{group}\{cm:UninstallProgram,{cm:innosuite}}"; Filename: "{uninstallexe}"; components: ALL ;WorkingDir: {app} ; Check: allversion
+
+Name: "{group}\{cm:innonamea}"; Filename: "{code:app2}\Compil32.exe" ;WorkingDir: {code:app2} ; Check:allversion and checkansi ;components:ALL\ANSI
+Name: "{commondesktop}\{cm:innonamea}"; Filename: "{code:app2}\Compil32.exe"; Tasks: desktopicona ;WorkingDir: {code:app2} ; Check:allversion and checkansi ;components:ALL\ANSI
+
+Name: "{group}\{cm:innonameu}"; Filename: "{app}\Compil32.exe" ;WorkingDir: {app} ; Check:allversion and checkunicode ;components:ALL\Unicode
+Name: "{commondesktop}\{cm:innonameu}"; Filename: "{app}\Compil32.exe"; Tasks: desktopiconu ;WorkingDir: {app} ; Check:allversion and checkunicode ;components:ALL\Unicode
+
+
+//扩展工具图标
+//第一种情况，没有同时安装，安装目录相同，都在 {app}
+Name: "{group}\{cm:istool}"; Filename: "{app}\Extend\Istool\ISTool.exe" ;WorkingDir: {app}\Extend\Istool ; Check:not allversion; components:Extend\Istool
+Name: "{commondesktop}\{cm:istool}"; Filename: "{app}\Extend\Istool\ISTool.exe"; Tasks: IstoolIcon ;WorkingDir: {app}\Extend\Istool ; Check:not allversion; components:Extend\Istool
+
+Name: "{group}\{cm:innoide}"; Filename: "{app}\Extend\InnoIDE\InnoIDE.exe" ;WorkingDir: {app}\Extend\InnoIDE ; Check:not allversion;components:Extend\InnoIDE
+Name: "{commondesktop}\{cm:innoide}"; Filename: "{app}\Extend\InnoIDE\InnoIDE.exe"; Tasks: InnoIDEIcon ;WorkingDir: {app}\Extend\InnoIDE ; Check:not allversion;components:Extend\InnoIDE
+
+Name: "{group}\{cm:innoscriptstudio}"; Filename: "{app}\Extend\Inno Script Studio\ISStudio.exe" ;WorkingDir: {app}\Extend\Inno Script Studio ; Check:not allversion;components:Extend\InnoScriptStudio
+Name: "{commondesktop}\{cm:innoscriptstudio}"; Filename: "{app}\Extend\Inno Script Studio\ISStudio.exe"; Tasks: ISStudioIcon ;WorkingDir: {app}\Extend\Inno Script Studio ; Check:not allversion;components:Extend\InnoScriptStudio
+
+//第二种情况，同时安装，提取出来，单独安装到 {pf}\Inno Tools 下
+Name: "{group}\{cm:istool}"; Filename: "{pf}\Inno Tools\Istool\ISTool.exe" ;WorkingDir: {pf}\Inno Tools\Istool ; Check:allversion ;components:Extend\Istool
+Name: "{commondesktop}\{cm:istool}"; Filename: "{pf}\Inno Tools\Istool\ISTool.exe"; Tasks: IstoolIcon ;WorkingDir: {pf}\Inno Tools\Istool ; Check:allversion ;components:Extend\Istool
+
+Name: "{group}\{cm:innoide}"; Filename: "{pf}\Inno Tools\InnoIDE\InnoIDE.exe" ;WorkingDir: {pf}\Inno Tools\InnoIDE ; Check:allversion ;components:Extend\InnoIDE
+Name: "{commondesktop}\{cm:innoide}"; Filename: "{pf}\Inno Tools\InnoIDE\InnoIDE.exe"; Tasks: InnoIDEIcon ;WorkingDir: {pf}\Inno Tools\InnoIDE ; Check:allversion ;components:Extend\InnoIDE
+
+Name: "{group}\{cm:innoscriptstudio}"; Filename: "{pf}\Inno Tools\Inno Script Studio\ISStudio.exe" ;WorkingDir: {pf}\Inno Tools\Inno Script Studio ; Check:allversion ;components:Extend\InnoScriptStudio
+Name: "{commondesktop}\{cm:innoscriptstudio}"; Filename: "{pf}\Inno Tools\Inno Script Studio\ISStudio.exe"; Tasks: ISStudioIcon ;WorkingDir: {pf}\Inno Tools\Inno Script Studio ; Check:allversion ;components:Extend\InnoScriptStudio
+
+
+//解包工具图标
+//第一种情况，没有同时安装，安装目录相同，都在 {app}
+Name: "{group}\{cm:innoex}"; Filename: "{app}\Extractor\InnoEx\InnoEx.exe" ; WorkingDir: {app}\Extractor\InnoEx ; Check:not allversion;components:Extractor\InnoEx
+Name: "{commondesktop}\{cm:innoex}"; Filename: "{app}\Extractor\InnoEx\InnoEx.exe"; Tasks: InnoExIcon ;WorkingDir: {app}\Extractor\InnoEx ; Check:not allversion;components:Extractor\InnoEx
+
+Name: "{group}\{cm:innoextractor}"; Filename: "{app}\Extractor\InnoExtractor\InnoExtractor.exe" ; WorkingDir: {app}\Extractor\InnoExtractor ; Check:not allversion;components:Extractor\InnoExtractor
+Name: "{commondesktop}\{cm:innoextractor}"; Filename: "{app}\Extractor\InnoExtractor\InnoExtractor.exe"; Tasks: InnoExtractorIcon ;WorkingDir: {app}\Extractor\InnoExtractor ; Check:not allversion;components:Extractor\InnoExtractor
+
+//第二种情况，同时安装，提取出来，单独安装到 {pf}\Inno Tools 下
+Name: "{group}\{cm:innoex}"; Filename: "{pf}\Inno Tools\Extractor\InnoEx\InnoEx.exe" ; WorkingDir: {pf}\Inno Tools\Extractor\InnoEx ; Check:allversion;components:Extractor\InnoEx
+Name: "{commondesktop}\{cm:innoex}"; Filename: "{pf}\Inno Tools\Extractor\InnoEx\InnoEx.exe"; Tasks: InnoExIcon ;WorkingDir: {pf}\Inno Tools\Extractor\InnoEx ; Check:allversion;components:Extractor\InnoEx
+
+Name: "{group}\{cm:innoextractor}"; Filename: "{pf}\Inno Tools\Extractor\InnoExtractor\InnoExtractor.exe" ; WorkingDir: {pf}\Inno Tools\Extractor\InnoExtractor ; Check:allversion;components:Extractor\InnoExtractor
+Name: "{commondesktop}\{cm:innoextractor}"; Filename: "{pf}\Inno Tools\Extractor\InnoExtractor\InnoExtractor.exe"; Tasks: InnoExtractorIcon ;WorkingDir: {pf}\Inno Tools\Extractor\InnoExtractor ; Check:allversion;components:Extractor\InnoExtractor
+
+
+[INI]
+//Istool//
+FileName: "{userappdata}\ISTool\ISTool.ini"; Section: "prefs"; Key: "LanguageFile"; String: "{app}\Extend\Istool\istool-cn.lng"; Flags:uninsdeletesection; Languages:chs; components:Extend\Istool\cntwo ;Check:not allversion
+FileName: "{userappdata}\ISTool\ISTool.ini"; Section: "prefs"; Key: "LanguageFile"; String: "{pf}\Inno Tools\Istool\istool-cn.lng"; Flags:uninsdeletesection; Languages:chs; components:Extend\Istool\cntwo ;Check:allversion
+FileName: "{userappdata}\ISTool\ISTool.ini"; Section: "prefs"; Key: "LanguageFile"; String: "{app}\Extend\Istool\istool-en.lng"; Flags:uninsdeletesection; Languages:en; components:Extend\Istool ;Check:not allversion
+FileName: "{userappdata}\ISTool\ISTool.ini"; Section: "prefs"; Key: "LanguageFile"; String: "{pf}\Inno Tools\Istool\istool-en.lng"; Flags:uninsdeletesection; Languages:en; components:Extend\Istool ;Check:allversion
+FileName: "{userappdata}\ISTool\ISTool.ini"; Section: "prefs"; Key: "InnoFolder"; String: "{app}"; Flags:uninsdeletesection; components:Extend\Istool
+FileName: "{userappdata}\ISTool\ISTool.ini"; Section: "prefs"; Key: "ScriptFolder"; String: "{app}\Examples"; Flags:uninsdeletesection; components:Extend\Istool
+FileName: "{userappdata}\ISTool\ISTool.ini"; Section: "prefs"; Key: "LanguageDirCount"; String: "2"; Flags:uninsdeletesection; components:Extend\Istool
+FileName: "{userappdata}\ISTool\ISTool.ini"; Section: "prefs"; Key: "LanguageDir00"; String: "{app}"; Flags:uninsdeletesection; components:Extend\Istool
+FileName: "{userappdata}\ISTool\ISTool.ini"; Section: "prefs"; Key: "LanguageDir01"; String: "{app}\Languages"; Flags:uninsdeletesection; components:Extend\Istool
+
+
+//InnoIDE//
+FileName: "{userappdata}\InnoIDE\settings.ini"; Section: "settings"; Key: "compiler_dir"; String: "{app}"; Flags:createkeyifdoesntexist uninsdeletesection; components:Extend\InnoIDE
+
+//Inno Script Studio 2//，如果这样则要重新在 ini 文件中设置语言等，这是制作便携版
+//FileName: "{app}\Extend\Inno Script Studio\Settings.ini"; Section: "Portable"; Key: "Portable"; String: "1"; Flags: createkeyifdoesntexist ;Check:not allversion ;components:Extend\InnoScriptStudio
+//FileName: "{pf}\Inno Tools\Inno Script Studio\Settings.ini"; Section: "Portable"; Key: "Portable"; String: "1"; Flags: createkeyifdoesntexist ;Check:allversion ;components:Extend\InnoScriptStudio
+
+
+[InstallDelete]
+Type: filesandordirs; Name: "{userappdata}\ISTool" ; components:Extend\Istool
+Type: filesandordirs; Name: "{userappdata}\InnoIDE" ; Languages:chs; components:Extend\InnoIDE
+Type: filesandordirs; Name: "{userappdata}\Kymoto Solutions" ; components:Extend\InnoScriptStudio
+Type: filesandordirs; Name: "{pf}\Inno Tools" ; components:Extend Extractor;Check:allversion
+Type: filesandordirs; Name: "{app}\Extend" ; components:Extend Extractor;Check:not allversion
+Type: filesandordirs; Name: "{app}\Extractor" ; components:Extend Extractor;Check:not allversion
+Type: filesandordirs; Name: "{userdocs}\Kymoto Solutions\ISStudio" ; components:Extend\InnoScriptStudio
+Type: dirifempty;     Name: "{userdocs}\Kymoto Solutions" ; components:Extend\InnoScriptStudio
+Type: filesandordirs; Name: "{userdocs}\Inno Setup Examples Output" ;
+Type: filesandordirs; Name: "{app}\Examples\Output" ;
+Type: filesandordirs; Name: "{code:app2}\Examples\Output" ;Check:allversion
+Type: files;          Name: "{app}\Config.ini"; components:ALL\Unicode\skygz ALL\ANSI\skygz ;Check:not allversion
+Type: files;          Name: "{app}\Config.ini"; components:ALL\Unicode\skygz ;Check:allversion
+Type: files;          Name: "{code:app2}\Config.ini"; components:ALL\ANSI\skygz ;Check:allversion
+
+[UninstallDelete]
+//清理扩展工具配置目录，解包工具资源存放目录
+Type: filesandordirs; Name: "{userappdata}\ISTool" ; components:Extend\Istool
+Type: filesandordirs; Name: "{userappdata}\InnoIDE" ; Languages:chs; components:Extend\InnoIDE
+Type: filesandordirs; Name: "{userappdata}\Kymoto Solutions" ; components:Extend\InnoScriptStudio
+Type: filesandordirs; Name: "{userdocs}\InnoExtractor" ; components:Extractor\InnoExtractor
+Type: filesandordirs; Name: "{pf}\Inno Tools" ; components:Extend Extractor;Check:allversion
+Type: filesandordirs; Name: "{app}\Extend" ; components:Extend Extractor;Check:not allversion
+Type: filesandordirs; Name: "{app}\Extractor" ; components:Extend Extractor;Check:not allversion
+Type: filesandordirs; Name: "{userdocs}\Kymoto Solutions\ISStudio" ; components:Extend\InnoScriptStudio
+Type: dirifempty;     Name: "{userdocs}\Kymoto Solutions" ; components:Extend\InnoScriptStudio
+Type: filesandordirs; Name: "{userdocs}\Inno Setup Examples Output" ;
+Type: filesandordirs; Name: "{app}\Examples\Output" ;
+Type: filesandordirs; Name: "{code:app2}\Examples\Output" ;Check:allversion
+Type: files;          Name: "{app}\Config.ini"; components:ALL\Unicode\skygz ALL\ANSI\skygz ;Check:not allversion
+Type: files;          Name: "{app}\Config.ini"; components:ALL\Unicode\skygz ;Check:allversion
+Type: files;          Name: "{code:app2}\Config.ini"; components:ALL\ANSI\skygz ;Check:allversion
+
+
+[Run]
+//运行主程序//
+Filename: "{app}\{#MyAppExeName}";WorkingDir: "{app}"; Description: "{cm:LaunchProgram}";  Components:ALL\ANSI ALL\Unicode; Flags:postinstall skipifsilent nowait; Check:not allversion
+Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Description: "{cm:LaunchProgramu}"; Components:ALL\Unicode; Flags: postinstall skipifsilent nowait; Check:allversion and checkunicode
+Filename: "{code:app2}\{#MyAppExeName}"; WorkingDir: "{code:app2}"; Description: "{cm:LaunchPrograma}"; Components:ALL\ANSI; Flags: postinstall skipifsilent nowait unchecked; Check:allversion and checkansi
+//运行主程序//
+
+Filename: "{app}\Extend\Istool\ISTool.exe";WorkingDir: "{app}\Extend\Istool"; Description: "{cm:LaunchProgramistool}";  Components:Extend\Istool; Flags:postinstall skipifsilent nowait unchecked; Check:not allversion
+Filename: "{pf}\Inno Tools\Istool\ISTool.exe";WorkingDir: "{pf}\Inno Tools\Istool"; Description: "{cm:LaunchProgramistool}";  Components:Extend\Istool; Flags:postinstall skipifsilent nowait unchecked; Check:allversion
+
+Filename: "{app}\Extend\InnoIDE\InnoIDE.exe";WorkingDir: "{app}\Extend\InnoIDE"; Description: "{cm:LaunchPrograminnoide}";  Components:Extend\InnoIDE; Flags:postinstall skipifsilent nowait unchecked; Check:not allversion
+Filename: "{pf}\Inno Tools\InnoIDE\InnoIDE.exe";WorkingDir: "{pf}\Inno Tools\InnoIDE"; Description: "{cm:LaunchPrograminnoide}";  Components:Extend\InnoIDE; Flags:postinstall skipifsilent nowait unchecked; Check:allversion
+
+Filename: "{app}\Extend\Inno Script Studio\ISStudio.exe";WorkingDir: "{app}\Extend\Inno Script Studio"; Description: "{cm:LaunchProgramisstudio}";  Components:Extend\InnoScriptStudio; Flags:postinstall skipifsilent nowait unchecked; Check:not allversion
+Filename: "{pf}\Inno Tools\Inno Script Studio\ISStudio.exe";WorkingDir: "{pf}\Inno Tools\Inno Script Studio"; Description: "{cm:LaunchProgramisstudio}";  Components:Extend\InnoScriptStudio; Flags:postinstall skipifsilent nowait unchecked; Check:allversion
+
+
+[Registry]
+//Inno Setup//
+Root: HKCU; SubKey: Software\Jordan Russell; Flags: uninsdeletekeyifempty
+Root: HKCU; SubKey: Software\Jordan Russell\Inno Setup; Flags: uninsdeletekey
+//不显示欢迎对话框
+Root: HKCU; SubKey: Software\Jordan Russell\Inno Setup\Options; ValueType: string; ValueName: ShowStartupForm; ValueData:"0"; Flags: uninsdeletekey
+//Win 8 以上系统设置以管理员运行
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{app}\{#MyAppExeName}; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; Components:ALL\Unicode;
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{code:app2}\{#MyAppExeName}; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; Components:ALL\ANSI;
+
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{pf}\Inno Tools\Istool\ISTool.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; Components:Extend\Istool; Check:allversion
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{app}\Extend\Istool\ISTool.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; Components:Extend\Istool; Check:not allversion
+
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{pf}\Inno Tools\InnoIDE\InnoIDE.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; Components:Extend\InnoIDE; Check:allversion
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{app}\Extend\InnoIDE\InnoIDE.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; Components:Extend\InnoIDE; Check:not allversion
+
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{pf}\Inno Tools\Inno Script Studio\ISStudio.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; Components:Extend\InnoScriptStudio; Check:allversion
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{app}\Extend\Inno Script Studio\ISStudio.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; Components:Extend\InnoScriptStudio; Check:not allversion
+
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{pf}\Inno Tools\Extractor\InnoEx\InnoEx.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ;components:Extractor\InnoEx; Check:allversion
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{app}\Extractor\InnoEx\InnoEx.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ;components:Extractor\InnoEx; Check:not allversion
+
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{pf}\Inno Tools\Extractor\InnoExtractor\InnoExtractor.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; components:Extractor\InnoExtractor; Check:allversion
+Root: HKCU; SubKey: Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers; ValueType: string; ValueName:{app}\Extractor\InnoExtractor\InnoExtractor.exe; ValueData: RUNASADMIN ;Flags: uninsdeletevalue ; components:Extractor\InnoExtractor; Check:not allversion
+//Inno Setup//
+
+
+//Inno Script Studio 2//
+Root: "HKCU"; Subkey: "Software\Kymoto Solutions"; Flags: uninsdeletekeyifempty ;components:Extend\InnoScriptStudio
+Root: "HKCU"; Subkey: "Software\Kymoto Solutions\Inno Script Studio 2"; Flags: deletekey ;components:Extend\InnoScriptStudio
+Root: "HKCU"; Subkey: "Software\Kymoto Solutions\Inno Script Studio 2"; Flags: uninsdeletekey ;components:Extend\InnoScriptStudio
+//设置为简体中文，记得在主程序目录下添加 Languages 文件夹，把语言文件添加进去
+Root: "HKCU"; Subkey: "Software\Kymoto Solutions\Inno Script Studio 2\Options"; ValueType: dword; ValueName: "Language"; ValueData: "$00000804"; Flags: uninsdeletekey; Languages:chs ;components:Extend\InnoScriptStudio
+//不显示欢迎对话框
+Root: "HKCU"; Subkey: "Software\Kymoto Solutions\Inno Script Studio 2\Options"; ValueType: dword; ValueName: "StartUpType"; ValueData: "$00000002"; Flags: uninsdeletekey ;components:Extend\InnoScriptStudio
+Root: "HKCU"; Subkey: "Software\Kymoto Solutions\Inno Script Studio 2\Options\Compiler"; ValueType: string; ValueName: "InnoCompilerPath"; ValueData: "{app}"; Flags: uninsdeletekey ;components:Extend\InnoScriptStudio
+//同时安装时设置为 ANSI 版本安装路径，默认 Unicode 版本
+//Root: "HKCU"; Subkey: "Software\Kymoto Solutions\Inno Script Studio 2\Options\Compiler"; ValueType: string; ValueName: "InnoCompilerPath"; ValueData: "{code:app2}"; Flags: uninsdeletekey ;components:Extend\InnoScriptStudio
+//Inno Script Studio 2//
+
+//ISSkin 皮肤//
+Root: HKLM; SubKey: SOFTWARE\Classes\.cjstyles; ValueType: string; ValueData: SkinBuilder.StyleDocument; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\.cjstyles\ShellNew; ValueType: string; ValueName: NullFile; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\.skinproj; ValueType: string; ValueData: SkinBuilder.Document; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\.skinproj\ShellNew; ValueType: string; ValueName: NullFile; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document; ValueType: string; ValueData: Skin Builder Project; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\DefaultIcon; ValueType: string; ValueData: {code:app2}\Examples\ISSkin\SkinBuilder.exe,1; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell; Components:PluginsII\ISSkin; Flags: uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\open; Components:PluginsII\ISSkin; Flags: uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\open\command; ValueType: string; ValueData: "{code:app2}\Examples\ISSkin\SkinBuilder.exe ""%1"""; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\print; Components:PluginsII\ISSkin; Flags: uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\print\command; ValueType: string; ValueData: "{code:app2}\Examples\ISSkin\SkinBuilder.exe /p ""%1"""; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\printto; Components:PluginsII\ISSkin; Flags: uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\printto\command; ValueType: string; ValueData: "{code:app2}\Examples\ISSkin\SkinBuilder.exe /pt ""%1"" ""%2"" ""%3"" ""%4"""; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument; ValueType: string; ValueData: Skin Builder Style Project; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\DefaultIcon; ValueType: string; ValueData: {code:app2}\Examples\ISSkin\SkinBuilder.exe,2; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell; Components:PluginsII\ISSkin; Flags: uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\open; Components:PluginsII\ISSkin; Flags: uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\open\command; ValueType: string; ValueData: "{code:app2}\Examples\ISSkin\SkinBuilder.exe ""%1"""; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\print; Components:PluginsII\ISSkin; Flags: uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\print\command; ValueType: string; ValueData: "{code:app2}\Examples\ISSkin\SkinBuilder.exe /p ""%1"""; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\printto; Components:PluginsII\ISSkin; Flags: uninsdeletekeyifempty ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\printto\command; ValueType: string; ValueData: "{code:app2}\Examples\ISSkin\SkinBuilder.exe /pt ""%1"" ""%2"" ""%3"" ""%4"""; Components:PluginsII\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty ;Check:not allversion
+Root: HKCU; SubKey: Software\Codejock Software Applications\Codejock Skin Builder; Components:PluginsII\ISSkin; Flags: uninsdeletekey ;Check:not allversion
+Root: HKCU; SubKey: Software\Codejock Software Applications; Components:PluginsII\ISSkin; Flags: uninsdeletekeyifempty ;Check:not allversion
+
+Root: HKLM; SubKey: SOFTWARE\Classes\.cjstyles; ValueType: string; ValueData: SkinBuilder.StyleDocument; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\.cjstyles\ShellNew; ValueType: string; ValueName: NullFile; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\.skinproj; ValueType: string; ValueData: SkinBuilder.Document; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\.skinproj\ShellNew; ValueType: string; ValueName: NullFile; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document; ValueType: string; ValueData: Skin Builder Project; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\DefaultIcon; ValueType: string; ValueData: {app}\Examples\ISSkin\SkinBuilder.exe,1; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell; Components:Plugins\ISSkin; Flags: uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\open; Components:Plugins\ISSkin; Flags: uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\open\command; ValueType: string; ValueData: "{app}\Examples\ISSkin\SkinBuilder.exe ""%1"""; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\print; Components:Plugins\ISSkin; Flags: uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\print\command; ValueType: string; ValueData: "{app}\Examples\ISSkin\SkinBuilder.exe /p ""%1"""; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\printto; Components:Plugins\ISSkin; Flags: uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.Document\shell\printto\command; ValueType: string; ValueData: "{app}\Examples\ISSkin\SkinBuilder.exe /pt ""%1"" ""%2"" ""%3"" ""%4"""; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument; ValueType: string; ValueData: Skin Builder Style Project; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\DefaultIcon; ValueType: string; ValueData: {app}\Examples\ISSkin\SkinBuilder.exe,2; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell; Components:Plugins\ISSkin; Flags: uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\open; Components:Plugins\ISSkin; Flags: uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\open\command; ValueType: string; ValueData: "{app}\Examples\ISSkin\SkinBuilder.exe ""%1"""; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\print; Components:Plugins\ISSkin; Flags: uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\print\command; ValueType: string; ValueData: "{app}\Examples\ISSkin\SkinBuilder.exe /p ""%1"""; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\printto; Components:Plugins\ISSkin; Flags: uninsdeletekeyifempty
+Root: HKLM; SubKey: SOFTWARE\Classes\SkinBuilder.StyleDocument\shell\printto\command; ValueType: string; ValueData: "{app}\Examples\ISSkin\SkinBuilder.exe /pt ""%1"" ""%2"" ""%3"" ""%4"""; Components:Plugins\ISSkin; Flags: uninsdeletevalue uninsdeletekeyifempty
+Root: HKCU; SubKey: Software\Codejock Software Applications\Codejock Skin Builder; Components:Plugins\ISSkin; Flags: uninsdeletekey
+Root: HKCU; SubKey: Software\Codejock Software Applications; Components:Plugins\ISSkin; Flags: uninsdeletekeyifempty
+//ISSkin 皮肤//
+
+
+//InnoExtractor 关联 exe 右键菜单//
+Root: HKCR; SubKey: exefile\shell\InnoExtractor; Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor
+Root: HKCR; SubKey: exefile\shell\InnoExtractor; Flags: deletekey noerror ;components:Extractor\InnoExtractor
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoExtractor; Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoExtractor; Flags: deletekey noerror ;components:Extractor\InnoExtractor
+
+Root: HKCR; SubKey: exefile\shell\InnoExtractor; ValueType: string; ValueName: ; ValueData: {cm:openwithinnoextractor} ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor; Tasks:fileassocinnoextractor;
+Root: HKCR; SubKey: exefile\shell\InnoExtractor; ValueType: string; ValueName: Icon; ValueData: {app}\Extractor\InnoExtractor\InnoExtractor.exe,0  ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor ;Check:not allversion ; Tasks:fileassocinnoextractor;
+Root: HKCR; SubKey: exefile\shell\InnoExtractor\command; ValueType: string; ValueName: ; ValueData: "{app}\Extractor\InnoExtractor\InnoExtractor.exe ""%1""" ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor ;Check:not allversion; Tasks:fileassocinnoextractor;
+Root: HKCR; SubKey: exefile\shell\InnoExtractor; ValueType: string; ValueName: Icon; ValueData: {pf}\Inno Tools\Extractor\InnoExtractor\InnoExtractor.exe,0  ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor ;Check: allversion; Tasks:fileassocinnoextractor;
+Root: HKCR; SubKey: exefile\shell\InnoExtractor\command; ValueType: string; ValueName: ; ValueData: "{pf}\Inno Tools\Extractor\InnoExtractor\InnoExtractor.exe ""%1""" ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor ;Check: allversion; Tasks:fileassocinnoextractor;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoExtractor; ValueType: string; ValueName: ; ValueData: {cm:openwithinnoextractor} ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor; Tasks:fileassocinnoextractor;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoExtractor; ValueType: string; ValueName: Icon; ValueData: {app}\Extractor\InnoExtractor\InnoExtractor.exe,0 ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor ;Check:not allversion; Tasks:fileassocinnoextractor;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoExtractor\command; ValueType: string; ValueName: ; ValueData: "{app}\Extractor\InnoExtractor\InnoExtractor.exe ""%1""" ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor ;Check:not allversion; Tasks:fileassocinnoextractor;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoExtractor; ValueType: string; ValueName: Icon; ValueData: {pf}\Inno Tools\Extractor\InnoExtractor\InnoExtractor.exe,0 ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor ;Check: allversion; Tasks:fileassocinnoextractor;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoExtractor\command; ValueType: string; ValueName: ; ValueData: "{pf}\Inno Tools\Extractor\InnoExtractor\InnoExtractor.exe ""%1""" ;Flags: uninsdeletekey noerror ;components:Extractor\InnoExtractor ;Check: allversion; Tasks:fileassocinnoextractor;
+
+
+//InnoEx 关联 exe 右键菜单//
+Root: HKCR; SubKey: exefile\shell\InnoEx; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx
+Root: HKCR; SubKey: exefile\shell\InnoEx; Flags: deletekey noerror ;components:Extractor\InnoEx
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoEx; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoEx; Flags: deletekey noerror ;components:Extractor\InnoEx
+
+Root: HKCR; SubKey: exefile\shell\InnoEx; ValueType: string; ValueName: ; ValueData: {cm:openwithinnoex} ;Flags: uninsdeletekey noerror ;components:Extractor\InnoEx; Tasks:fileassocinnoex;
+Root: HKCR; SubKey: exefile\shell\InnoEx; ValueType: string; ValueName: Icon; ValueData: {app}\Extractor\InnoEx\InnoEx.exe,0; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx ;Check:not allversion; Tasks:fileassocinnoex;
+Root: HKCR; SubKey: exefile\shell\InnoEx\command; ValueType: string; ValueName: ; ValueData: "{app}\Extractor\InnoEx\InnoEx.exe ""%1"""; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx ;Check:not allversion; Tasks:fileassocinnoex;
+Root: HKCR; SubKey: exefile\shell\InnoEx; ValueType: string; ValueName: Icon; ValueData: {pf}\Inno Tools\Extractor\InnoEx\InnoEx.exe,0; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx ;Check:allversion; Tasks:fileassocinnoex;
+Root: HKCR; SubKey: exefile\shell\InnoEx\command; ValueType: string; ValueName: ; ValueData: "{pf}\Inno Tools\Extractor\InnoEx\InnoEx.exe ""%1"""; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx ;Check:allversion; Tasks:fileassocinnoex;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoEx; ValueType: string; ValueName: ; ValueData: {cm:openwithinnoex} ;Flags: uninsdeletekey noerror ;components:Extractor\InnoEx; Tasks:fileassocinnoex;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoEx; ValueType: string; ValueName: Icon; ValueData: {app}\Extractor\InnoEx\InnoEx.exe,0; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx ;Check:not allversion; Tasks:fileassocinnoex;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoEx\command; ValueType: string; ValueName: ; ValueData: "{app}\Extractor\InnoEx\InnoEx.exe ""%1"""; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx ;Check:not allversion; Tasks:fileassocinnoex;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoEx; ValueType: string; ValueName: Icon; ValueData: {pf}\Inno Tools\Extractor\InnoEx\InnoEx.exe,0; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx ;Check:allversion; Tasks:fileassocinnoex;
+Root: HKCU; SubKey: Software\Classes\exefile\shell\InnoEx\command; ValueType: string; ValueName: ; ValueData: "{pf}\Inno Tools\Extractor\InnoEx\InnoEx.exe ""%1"""; Flags: uninsdeletekey noerror ;components:Extractor\InnoEx ;Check:allversion; Tasks:fileassocinnoex;
+
+
+//关联 iss 文件
+//INNO
+Root: HKCR; SubKey: .iss; Flags: uninsdeletekey; components:ALL\ANSI ALL\Unicode
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile; Flags: uninsdeletekey; components:ALL\ANSI ALL\Unicode
+
+Root: HKCR; SubKey: .iss; ValueType: string; ValueData: InnoSetupScriptFile; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode;Tasks: fileassocinno fileassocinnoansi fileassocinnounicode
+Root: HKCR; SubKey: .iss; ValueType: string; ValueName: Content Type; ValueData: text/plain; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode;Tasks: fileassocinno fileassocinnoansi fileassocinnounicode
+
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile; ValueType: string; ValueData:{cm:InnoSetupScriptFile}; Flags: uninsdeletekey; components:ALL\ANSI ALL\Unicode;Tasks: fileassocinno fileassocinnoansi fileassocinnounicode
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\DefaultIcon; ValueType: string; ValueData: {app}\Compil32.exe,1; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode; Tasks: fileassocinno ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\DefaultIcon; ValueType: string; ValueData: {app}\Compil32.exe,1; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\Unicode; Tasks: fileassocinnounicode ;Check:allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\DefaultIcon; ValueType: string; ValueData: {code:app2}\Compil32.exe,1; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI; Tasks: fileassocinnoansi ;Check:allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell; Flags: uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode; Tasks: fileassocinno fileassocinnoansi fileassocinnounicode
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\Compile; ValueType: string; ValueData: {cm:innoCompile}; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode; Tasks: fileassocinno fileassocinnoansi fileassocinnounicode
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\Compile\command; ValueType: string; ValueData: """{app}\Compil32.exe"" /cc ""%1"""; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode; Tasks: fileassocinno ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\Compile\command; ValueType: string; ValueData: """{app}\Compil32.exe"" /cc ""%1"""; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\Unicode; Tasks: fileassocinnounicode ;Check:allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\Compile\command; ValueType: string; ValueData: """{code:app2}\Compil32.exe"" /cc ""%1"""; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI; Tasks: fileassocinnoansi ;Check:allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\open; Flags: uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode; Tasks: fileassocinno fileassocinnoansi fileassocinnounicode
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\open\command; ValueType: string; ValueData: """{app}\Compil32.exe"" ""%1"""; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode; Tasks: fileassocinno ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\open\command; ValueType: string; ValueData: """{app}\Compil32.exe"" ""%1"""; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\Unicode; Tasks: fileassocinnounicode ;Check:allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\open\command; ValueType: string; ValueData: """{code:app2}\Compil32.exe"" ""%1"""; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI; Tasks: fileassocinnoansi ;Check:allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\OpenWithInnoSetup; ValueType: string; ValueData:{cm:OpenWithInnoSetup} ; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode; Tasks: fileassocinno fileassocinnoansi fileassocinnounicode
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\OpenWithInnoSetup\command; ValueType: string; ValueData: """{app}\Compil32.exe"" ""%1"""; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI ALL\Unicode; Tasks: fileassocinno ;Check:not allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\OpenWithInnoSetup\command; ValueType: string; ValueData: """{app}\Compil32.exe"" ""%1"""; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\Unicode; Tasks: fileassocinnounicode ;Check:allversion
+Root: HKLM; SubKey: SOFTWARE\Classes\InnoSetupScriptFile\shell\OpenWithInnoSetup\command; ValueType: string; ValueData: """{code:app2}\Compil32.exe"" ""%1"""; Flags: uninsdeletevalue uninsdeletekeyifempty; components:ALL\ANSI; Tasks: fileassocinnoansi ;Check:allversion
+
+//ISTOOL
+Root: HKCR; Subkey: "InnoSetupScriptFile"; Flags: uninsdeletekey; components:Extend\Istool;
+
+Root: HKCR; Subkey: ".iss"; ValueType: String; ValueData: "InnoSetupScriptFile"; Flags: uninsdeletevalue uninsdeletekeyifempty; components:Extend\Istool; Tasks: fileassocistool
+Root: HKCR; Subkey: "InnoSetupScriptFile\DefaultIcon"; ValueType: String; ValueData: """{app}\Extend\Istool\ISTool.exe"",0"; Flags: createvalueifdoesntexist uninsdeletevalue;components:Extend\Istool ;Check:not allversion; Tasks: fileassocistool
+Root: HKCR; Subkey: "InnoSetupScriptFile\DefaultIcon"; ValueType: String; ValueData: """{pf}\Inno Tools\Istool\ISTool.exe"",0"; Flags: createvalueifdoesntexist uninsdeletevalue;components:Extend\Istool ;Check:allversion; Tasks: fileassocistool
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenWithISTool"; ValueType: String; ValueData: "{cm:OpenWithISTool}"; Flags: uninsdeletekey;components:Extend\Istool; Tasks: fileassocistool
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenWithISTool"; Flags: uninsdeletekey;components:Extend\Istool; Tasks: fileassocistool
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenwithISTool\command"; ValueType: String; ValueData: """{app}\Extend\Istool\ISTool.exe"" ""%1"""; Flags: uninsdeletekey;components:Extend\Istool ;Check:not allversion; Tasks: fileassocistool
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenwithISTool\command"; ValueType: String; ValueData: """{pf}\Inno Tools\Istool\ISTool.exe"" ""%1"""; Flags: uninsdeletekey;components:Extend\Istool ;Check:allversion; Tasks: fileassocistool
+
+//INNOIDE
+Root: HKCR; Subkey: "InnoSetupScriptFile"; Flags: uninsdeletekey; components:Extend\InnoIDE;
+
+Root: HKCR; Subkey: ".iss"; ValueType: String; ValueData: "InnoSetupScriptFile"; Flags: uninsdeletevalue uninsdeletekeyifempty; components:Extend\InnoIDE; Tasks: fileassocinnoide
+Root: HKCR; Subkey: "InnoSetupScriptFile\DefaultIcon"; ValueType: String; ValueData: """{app}\Extend\InnoIDE\InnoIDE.exe"",0"; Flags: createvalueifdoesntexist uninsdeletevalue;components:Extend\InnoIDE ;Check:not allversion; Tasks: fileassocinnoide
+Root: HKCR; Subkey: "InnoSetupScriptFile\DefaultIcon"; ValueType: String; ValueData: """{pf}\Inno Tools\InnoIDE\InnoIDE.exe"",0"; Flags: createvalueifdoesntexist uninsdeletevalue;components:Extend\InnoIDE ;Check:allversion; Tasks: fileassocinnoide
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenWithISTool"; ValueType: String; ValueData: "{cm:OpenWithInnoIDE}"; Flags: uninsdeletekey;components:Extend\InnoIDE; Tasks: fileassocinnoide
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenWithISTool"; Flags: uninsdeletekey;components:Extend\InnoIDE; Tasks: fileassocinnoide
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenwithISTool\command"; ValueType: String; ValueData: """{app}\Extend\InnoIDE\InnoIDE.exe"" ""%1"""; Flags: uninsdeletekey;components:Extend\InnoIDE ;Check:not allversion; Tasks: fileassocinnoide
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenwithISTool\command"; ValueType: String; ValueData: """{pf}\Inno Tools\InnoIDE\InnoIDE.exe"" ""%1"""; Flags: uninsdeletekey;components:Extend\InnoIDE ;Check:allversion; Tasks: fileassocinnoide
+
+//ISStudio
+Root: HKCR; Subkey: "InnoSetupScriptFile"; Flags: uninsdeletekey; components:Extend\InnoScriptStudio;
+
+Root: HKCR; Subkey: ".iss"; ValueType: String; ValueData: "InnoSetupScriptFile"; Flags: uninsdeletevalue uninsdeletekeyifempty; components:Extend\InnoScriptStudio; Tasks: fileassocisstudio
+Root: HKCR; Subkey: "InnoSetupScriptFile\DefaultIcon"; ValueType: String; ValueData: """{app}\Extend\Inno Script Studio\ISStudio.exe"",0"; Flags: createvalueifdoesntexist uninsdeletevalue;components:Extend\InnoScriptStudio ;Check:not allversion; Tasks: fileassocisstudio
+Root: HKCR; Subkey: "InnoSetupScriptFile\DefaultIcon"; ValueType: String; ValueData: """{pf}\Inno Tools\Inno Script Studio\ISStudio.exe"",0"; Flags: createvalueifdoesntexist uninsdeletevalue;components:Extend\InnoScriptStudio ;Check:allversion; Tasks: fileassocisstudio
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenWithISTool"; ValueType: String; ValueData: "{cm:OpenWithISStudio}"; Flags: uninsdeletekey;components:Extend\InnoScriptStudio; Tasks: fileassocisstudio
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenWithISTool"; Flags: uninsdeletekey;components:Extend\InnoScriptStudio; Tasks: fileassocisstudio
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenwithISTool\command"; ValueType: String; ValueData: """{app}\Extend\Inno Script Studio\ISStudio.exe"" ""%1"""; Flags: uninsdeletekey;components:Extend\InnoScriptStudio ;Check:not allversion; Tasks: fileassocisstudio
+Root: HKCR; Subkey: "InnoSetupScriptFile\shell\OpenwithISTool\command"; ValueType: String; ValueData: """{pf}\Inno Tools\Inno Script Studio\ISStudio.exe"" ""%1"""; Flags: uninsdeletekey;components:Extend\InnoScriptStudio ;Check:allversion; Tasks: fileassocisstudio
+
+//ISTOOL 检测 Inno Setup 注册表位置
+Root: HKLM; SubKey: SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1; Flags: uninsdeletekeyifempty;
+
+//Skygz 增强版清理
+Root: HKCU; SubKey: {code:app2}; Flags: uninsdeletekeyifempty; components:ALL\ANSI\skygz ;Check:allversion
+Root: HKCU; SubKey: {code:app2}\Config.ini; Flags: uninsdeletekeyifempty; components:ALL\ANSI\skygz ;Check:allversion
+Root: HKCU; SubKey: {code:app2}\Config.ini\Options; Flags: uninsdeletekey; components:ALL\ANSI\skygz ;Check:allversion
+Root: HKCU; SubKey: {app}; Flags: uninsdeletekeyifempty; components:ALL\Unicode\skygz ;Check:allversion
+Root: HKCU; SubKey: {app}\Config.ini; Flags: uninsdeletekeyifempty; components:ALL\Unicode\skygz ;Check:allversion
+Root: HKCU; SubKey: {app}\Config.ini\Options; Flags: uninsdeletekey; components:ALL\Unicode\skygz ;Check:allversion
+Root: HKCU; SubKey: {app}; Flags: uninsdeletekeyifempty; components:ALL\ANSI\skygz ALL\Unicode\skygz ;Check:not allversion
+Root: HKCU; SubKey: {app}\Config.ini; Flags: uninsdeletekeyifempty; components:ALL\ANSI\skygz ALL\Unicode\skygz ;Check:not allversion
+Root: HKCU; SubKey: {app}\Config.ini\Options; Flags: uninsdeletekey; components:ALL\ANSI\skygz ALL\Unicode\skygz ;Check:not allversion
+
+Root: HKCU; SubKey: {code:skygzinstallDrive}; Flags: uninsdeletekey; components:ALL\ANSI\skygz ALL\Unicode\skygz ;Check:not allversion
+Root: HKCU; SubKey: {code:skygzinstallDrive}; Flags: uninsdeletekey; components:ALL\ANSI\skygz ALL\Unicode\skygz ;Check:allversion and (not allskygz)
+Root: HKCU; SubKey: {code:skygzinstallDrive}; Flags: uninsdeletekey; components:ALL\ANSI\skygz ALL\Unicode\skygz ;Check:allversion and allskygz
+Root: HKCU; SubKey: {code:skygzallinstallDrive}; Flags: uninsdeletekey; components:ALL\ANSI\skygz ALL\Unicode\skygz ;Check:allversion and allskygz
+
+Root: HKCU; SubKey: {app}\Config.ini\Options; ValueType: string; ValueName: ShowStartupForm; ValueData: 0; Flags: uninsdeletekey; components:ALL\ANSI\skygz ALL\Unicode\skygz ;Check:not allversion
+Root: HKCU; SubKey: {app}\Config.ini\Options; ValueType: string; ValueName: ShowStartupForm; ValueData: 0; Flags: uninsdeletekey; components:ALL\Unicode\skygz ;Check:allversion
+Root: HKCU; SubKey: {code:app2}\Config.ini\Options; ValueType: string; ValueName: ShowStartupForm; ValueData: 0; Flags: uninsdeletekey; components:ALL\ANSI\skygz ;Check:allversion
+
+
+[CODE]
+//限制组件选择
+var
+OldEvent_ComponentsListClickCheck: TNotifyEvent;
+OldEvent_TypesComboOnChange: TNotifyEvent;     //定义安装类型更改事件备份
+//限制组件选择
+
+//水波效果
+bmp: TBitmap;
+
+function enablewater(ParentWnd: HWND; Left, Top: integer; Bmp: HBITMAP; WaterRadius, WaterHeight: integer): BOOL;
+  external 'enablewater@files:waterctrl.dll stdcall';
+function waterblob(x, y: integer; radius, height: integer): BOOL;
+  external 'waterblob@files:waterctrl.dll stdcall';
+function flattenwater(): BOOL; external 'flattenwater@files:waterctrl.dll stdcall';
+function disablewater(): BOOL; external 'disablewater@files:waterctrl.dll stdcall';
+function setwaterparent(ParentWnd: HWND): BOOL; external 'setwaterparent@files:waterctrl.dll stdcall';
+//水波效果
+
+//第一部分
+//---------------------------------------------------------------------------------------
+//判断是否安装 Unicode 或 ANSI//
+function checkunicode: Boolean;
+begin
+  if IsComponentSelected('ALL\Unicode') then
+  Result := true
+  else
+  Result := false
+end;
+function checkansi: Boolean;
+begin
+  if IsComponentSelected('ALL\ANSI') then
+  Result := true
+  else
+  Result := false
+end;
+//判断是否安装 Unicode 或 ANSI//
+
+function allversion: Boolean;
+begin
+  if (IsComponentSelected('ALL\ANSI')) and (IsComponentSelected('ALL\Unicode')) then
+  Result := true
+  else
+  Result := false
+end;
+
+//判断是否安装的是 restools 版本//
+function restoolsinstall: Boolean;
+begin
+if  (IsComponentSelected('ALL\Unicode\restools')) or (IsComponentSelected('ALL\ANSI\restools')) then
+  Result := true
+  else
+  Result := false
+end;
+//判断是否安装的是 restools 版本//
+
+//判断不是 restools 版本//
+function otherversion: Boolean;
+begin
+if  (not IsComponentSelected('ALL\Unicode\restools')) and (not IsComponentSelected('ALL\ANSI\restools')) then
+  Result := true
+  else
+  Result := false
+end;
+//判断不是 restools 版本//
+//---------------------------------------------------------------------------------------
+
+//第二部分，两个安装目录代码
+//---------------------------------------------------------------------------------------
+var
+  Label1: TLabel;
+  NewEdit1: TNewEdit;
+  NewButton1: TNewButton;
+
+procedure ButtonOnClick(Sender: TObject);   // 点击“浏览”按钮后的操作
+var newDir: string;
+begin
+if BrowseForFolder(CustomMessage('selectpath'), newDir, false) then
+  NewEdit1.Text := newDir;
+end;
+
+procedure RedesignWizardForm;
+begin
+  { Label1 }
+  Label1 := TLabel.Create(WizardForm);
+  with Label1 do
+  begin
+    Name := 'Label1';
+    Parent := WizardForm.SelectDirPage;
+    Label1.WordWrap:= True;
+    AutoSize := False;
+    Caption := CustomMessage('selectpathhint');
+    Transparent := False;
+    Left := ScaleX(0);
+    Top := ScaleY(155);
+    Width := ScaleX(393);  //英文状态下
+    //Width := ScaleX(350);  //中文状态下
+    Height := ScaleY(56);
+  end;
+
+  with WizardForm.DiskSpaceLabel do
+  begin
+    Top := ScaleY(107);
+  end;
+
+  { NewEdit1 }
+  NewEdit1 := TNewEdit.Create(WizardForm);
+  with NewEdit1 do
+  begin
+    Name := 'NewEdit1';
+    Parent := WizardForm.SelectDirPage;
+    Left := ScaleX(0);
+    if ActiveLanguage = 'chs' then
+    begin
+    Top := ScaleY(174)
+    end
+    else
+    begin
+    Top := ScaleY(191);
+    end;
+    Width := ScaleX(321);
+    Height := ScaleY(22);
+    Text:= ExpandConstant('{pf}\Inno Setup {#MyAppVersion}(a)');  // 默认副目录
+  end;
+
+  { NewButton1 }
+  NewButton1 := TNewButton.Create(WizardForm);
+  with NewButton1 do
+  begin
+    Name := 'NewButton1';
+    Parent := WizardForm.SelectDirPage;
+    Left := ScaleX(336);
+    if ActiveLanguage = 'chs' then
+    begin
+    Top := ScaleY(174)
+    end
+    else
+    begin
+    Top := ScaleY(191);
+    end;
+    Width := ScaleX(81);
+    Height := ScaleY(24);
+    Caption := CustomMessage('browsepath');
+    OnClick:= @ButtonOnClick;
+  end;
+
+  NewEdit1.TabOrder := 5;
+  NewButton1.TabOrder := 6;
+
+end;
+
+//限制组件选择
+Procedure CmpListOnClickCheck(Sender: TObject);   //组件列表单击事件
+var
+i: integer;
+begin
+OldEvent_ComponentsListClickCheck(Sender);   //重置组件列表单击事件
+
+if  IsComponentSelected('ALL\ANSI') or  IsComponentSelected('ALL\Unicode') then  //没选择主组件，禁用下一步
+WizardForm.NextButton.Enabled := true
+else
+WizardForm.NextButton.Enabled := false;
+
+
+if ActiveLanguage = 'chs' then
+begin
+  if  IsComponentSelected('ALL\ANSI') then
+    For i := 9 to 18 do
+    begin
+    //WizardForm.ComponentsList.Checked[i] := true;
+    WizardForm.ComponentsList.ItemEnabled[i] := true;
+    end;
+
+  if  not IsComponentSelected('ALL\ANSI') then
+    For i := 9 to 18 do
+    begin
+    WizardForm.ComponentsList.Checked[i] := false;
+    WizardForm.ComponentsList.ItemEnabled[i] := false;
+    end;
+
+  if  IsComponentSelected('ALL\Unicode') then
+   For i := 19 to 28 do
+     begin
+     //WizardForm.ComponentsList.Checked[i] := true;
+     WizardForm.ComponentsList.ItemEnabled[i] := true;
+     end;
+
+  if  not IsComponentSelected('ALL\Unicode') then
+   For i := 19 to 28 do
+     begin
+     WizardForm.ComponentsList.Checked[i] := false;
+     WizardForm.ComponentsList.ItemEnabled[i] := false;
+     end;
+end;
+
+if ActiveLanguage <> 'chs' then
+begin
+  if  IsComponentSelected('ALL\ANSI') then
+    For i := 7 to 16 do
+    begin
+    //WizardForm.ComponentsList.Checked[i] := true;
+    WizardForm.ComponentsList.ItemEnabled[i] := true;
+    end;
+
+  if  not IsComponentSelected('ALL\ANSI') then
+    For i := 7 to 16 do
+    begin
+    WizardForm.ComponentsList.Checked[i] := false;
+    WizardForm.ComponentsList.ItemEnabled[i] := false;
+    end;
+
+  if  IsComponentSelected('ALL\Unicode') then
+   For i := 17 to 26 do
+     begin
+     //WizardForm.ComponentsList.Checked[i] := true;
+     WizardForm.ComponentsList.ItemEnabled[i] := true;
+     end;
+
+  if  not IsComponentSelected('ALL\Unicode') then
+   For i := 17 to 26 do
+     begin
+     WizardForm.ComponentsList.Checked[i] := false;
+     WizardForm.ComponentsList.ItemEnabled[i] := false;
+     end;
+end;
+end;
+
+Procedure TypesComboOnChange(Sender: TObject);    //安装类型更改事件
+var
+i: integer;
+begin
+OldEvent_TypesComboOnChange(Sender);    //重置安装类型事件
+
+if  IsComponentSelected('ALL\ANSI') or  IsComponentSelected('ALL\Unicode') then  //没选择主组件，禁用下一步
+WizardForm.NextButton.Enabled := true
+else
+WizardForm.NextButton.Enabled := false;
+
+if WizardForm.TypesCombo.ItemIndex = 0 then
+begin
+  if ActiveLanguage = 'chs' then
+  For i := 9 to 18 do
+  begin
+  WizardForm.ComponentsList.Checked[i] := false;
+  WizardForm.ComponentsList.ItemEnabled[i] := false;
+  end
+  else
+  begin
+  WizardForm.ComponentsList.ItemEnabled[i] := true;
+  end;
+
+  if (ActiveLanguage = 'chs') and IsComponentSelected('ALL\Unicode') then
+  begin
+  For i := 19 to 28 do
+     begin
+     WizardForm.ComponentsList.ItemEnabled[i] := true;
+     end;
+  end;
+
+  if (ActiveLanguage = 'chs') and (not IsComponentSelected('ALL\Unicode')) then
+  begin
+  For i := 19 to 28 do
+     begin
+     WizardForm.ComponentsList.ItemEnabled[i] := false;
+     end;
+  end;
+
+  if ActiveLanguage <> 'chs' then
+  For i := 7 to 16 do
+  begin
+  WizardForm.ComponentsList.Checked[i] := false;
+  WizardForm.ComponentsList.ItemEnabled[i] := false;
+  end
+  else
+  begin
+  WizardForm.ComponentsList.ItemEnabled[i] := true;
+  end;
+
+  if (ActiveLanguage <> 'chs') and IsComponentSelected('ALL\Unicode') then
+  begin
+  For i := 17 to 26 do
+     begin
+     WizardForm.ComponentsList.ItemEnabled[i] := true;
+     end;
+  end;
+
+  if (ActiveLanguage <> 'chs') and (not IsComponentSelected('ALL\Unicode')) then
+  begin
+  For i := 17 to 26 do
+     begin
+     WizardForm.ComponentsList.ItemEnabled[i] := false;
+     end;
+  end;
+
+end;
+end;
+//限制组件选择
+
+
+procedure InitializeWizard();
+var
+i: integer;
+begin
+  RedesignWizardForm;
+  CreateMutex('{#MyAppName}');
+  OldEvent_ComponentsListClickCheck := WizardForm.ComponentsList.OnClickCheck;     //备份组件列表单击事件
+  OldEvent_TypesComboOnChange := WizardForm.TypesCombo.OnChange                    //备份安装类型更改事件
+  WizardForm.ComponentsList.OnClickCheck := @CmpListOnClickCheck;                         //关联组件列表单击事件
+  WizardForm.TypesCombo.OnChange := @TypesComboOnChange;                  //关联安装类型更改事件
+  //设置安装向导左边位图
+  WizardForm.WizardSmallBitmapImage.width:=55; //设置页眉图片的大小
+  WizardForm.WizardSmallBitmapImage.height:=55;
+  WizardForm.WizardSmallBitmapImage.left:=WizardForm.width-65; //设置左边页眉留出的空隙
+  WizardForm.WizardSmallBitmapImage.top:=0;
+  //设置标签位置
+  WizardForm.BeveledLabel.Left:=25;
+
+  Wizardform.WelcomeLabel1.Visible:= false;  //   屏蔽安装向导页面上面的文字
+  Wizardform.WelcomeLabel2.Visible:= false;  //   屏蔽安装向导页面上面的文字
+  Wizardform.WizardBitmapImage.Width:= Wizardform.InnerPage.Width;  // 放大图像到整个界面宽度
+  Wizardform.WizardBitmapImage.Height:= Wizardform.InnerPage.Height;
+
+  bmp := TBitmap.create;
+  try
+    if ActiveLanguage = 'chs' then
+      begin
+        ExtractTemporaryFile('开始位图1.bmp');
+        bmp.LoadFromFile(ExpandConstant('{tmp}\开始位图1.bmp'));
+        For i := 9 to 18 do
+        begin
+        WizardForm.ComponentsList.Checked[i] := false;
+        WizardForm.ComponentsList.ItemEnabled[i] := false;
+        end;
+      end
+    else
+      begin
+        ExtractTemporaryFile('开始位图2.bmp');
+        bmp.LoadFromFile(ExpandConstant('{tmp}\开始位图2.bmp'));
+        For i := 7 to 16 do
+        begin
+        WizardForm.ComponentsList.Checked[i] := false;
+        WizardForm.ComponentsList.ItemEnabled[i] := false;
+        end;
+      end;
+    enablewater(WizardForm.WelcomePage.Handle, 0, 0, bmp.Handle, 3, 50);
+  finally
+    bmp.Free;
+  end;
+end;
+
+//水波特效
+procedure CurPageChanged(CurPage: Integer);
+begin
+  if CurPage = wpWelcome then
+  begin
+    setwaterparent(WizardForm.WelcomePage.Handle);
+    waterblob(230, 140, 10, 1000);
+  end else
+  if CurPage = wpFinished then
+  begin
+    disablewater;
+    bmp := TBitmap.create;
+    try
+      if ActiveLanguage = 'chs' then
+        begin
+          ExtractTemporaryFile('结束位图1.bmp');
+          bmp.LoadFromFile(ExpandConstant('{tmp}\结束位图1.bmp'));
+        end
+      else
+        begin
+          ExtractTemporaryFile('结束位图2.bmp');
+          bmp.LoadFromFile(ExpandConstant('{tmp}\结束位图2.bmp'));
+        end;
+      enablewater(WizardForm.FinishedPage.Handle, 0, 0, bmp.Handle, 3, 50);
+    finally
+      bmp.Free;
+    end;
+    setwaterparent(WizardForm.FinishedPage.Handle);
+    waterblob(68, 168, 10, 1000);
+  end else
+    flattenwater();
+end;
+
+procedure DeinitializeSetup();
+begin
+  disablewater();
+end;
+//水波特效
+
+//取消直接退出安装程序
+procedure CancelButtonClick(CurPageID: Integer; var Cancel, Confirm: Boolean);
+begin
+  Confirm := False;
+end;
+
+//两个安装目录
+function app2(Param: String): String;   // 副目录
+begin
+  Result:=ExpandConstant('{app}')
+  if (IsComponentSelected('ALL\ANSI')) and (IsComponentSelected('ALL\Unicode')) then
+  begin
+  if NewEdit1.Text=ExpandConstant('{app}') then    //目录选到一样处理
+  begin
+  NewEdit1.Text:=ExpandConstant('{app}(a)');
+  end;
+  Result:= NewEdit1.Text;
+  end;
+end;
+//---------------------------------------------------------------------------------------
+
+
+function allskygz: Boolean;
+begin
+  if IsComponentSelected('ALL\ANSI\skygz') and IsComponentSelected('ALL\Unicode\skygz') then
+  Result := true
+  else
+  Result := false
+end;
+
+//获取 Skygz 增强版安装盘符
+function skygzinstallDrive(Param: String): String;
+begin
+if IsComponentSelected('ALL\Unicode\skygz') or IsComponentSelected('ALL\ANSI\skygz') and (not allversion) then
+  begin
+  Result:=ExtractFileDrive(ExpandConstant('{app}\{#MyAppExeName}'));
+  end;
+
+if IsComponentSelected('ALL\Unicode\skygz') and allversion and (not allskygz) then
+  begin
+  Result:=ExtractFileDrive(ExpandConstant('{app}\{#MyAppExeName}'));
+  end;
+
+if IsComponentSelected('ALL\ANSI\skygz') and allversion and (not allskygz) then
+  begin
+  Result:=ExtractFileDrive(ExpandConstant('{code:app2}\{#MyAppExeName}'));
+  end;
+
+if allversion and  allskygz then
+  begin
+  Result:=ExtractFileDrive(ExpandConstant('{app}\{#MyAppExeName}'));
+  end;
+end;
+
+function skygzallinstallDrive(Param: String): String;
+begin
+if allversion and allskygz then
+Result:=ExtractFileDrive(ExpandConstant('{code:app2}\{#MyAppExeName}'));
+end;
+
+//----------------------------------------------------------------------------------------
+
+function InitializeSetup():boolean;
+var
+  MykeynotExist:boolean;
+  ResultCode: Integer;
+  ResultStr: String;
+  skNames: TArrayOfString;
+  j: Integer;
+begin
+  Result:= true;
+  MykeynotExist:= true;
+  if RegGetSubkeyNames(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall', skNames) then
+  begin
+  for  j:= 0 to GetArrayLength(skNames)-1 do
+    begin
+    if Copy(skNames[j],1,10) = 'Inno Setup' then
+      begin
+      //卸载系统安装的版本
+      if RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\'+skNames[j], 'UninstallString', ResultStr) then
+        begin
+        MyKeynotExist:= false;
+        if MsgBox(CustomMessage('uninshint'),mbInformation,MB_OKCANCEL)=IDOK then
+          begin
+          ResultStr := RemoveQuotes(ResultStr);
+          Exec(ResultStr,'/silent /verysilent', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+          Result:= true;
+          end
+          else
+          Result:= false;
+        end;
+      end;
+    end;
+  end;
+end;
